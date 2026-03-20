@@ -2,6 +2,7 @@ package com.example.gestioneordinipizza.service.pizza;
 
 import com.example.gestioneordinipizza.model.Pizza;
 import com.example.gestioneordinipizza.repository.pizza.PizzaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PizzaServiceImpl implements PizzaService{
 
+    @Autowired
     private PizzaRepository pizzaRepository;
 
     @Override
@@ -52,5 +54,10 @@ public class PizzaServiceImpl implements PizzaService{
         Pizza pizza = pizzaRepository.findById(id).orElseThrow(() -> new RuntimeException("Pizza non trovata"));
         pizza.setAttivo(false);
         pizzaRepository.save(pizza);
+    }
+
+    @Override
+    public List<Pizza> findByExample(Pizza pizzaExample) {
+        return (List<Pizza>) pizzaRepository.findAllByExample(pizzaExample);
     }
 }

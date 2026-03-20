@@ -3,6 +3,7 @@ package com.example.gestioneordinipizza.web.controller;
 import com.example.gestioneordinipizza.dto.ClienteDTO;
 import com.example.gestioneordinipizza.model.Cliente;
 import com.example.gestioneordinipizza.service.cliente.ClienteService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -81,6 +82,26 @@ public class ClienteController {
         model.addAttribute("show_cliente_attr",
                 ClienteDTO.buildClienteDTOFromModel(clienteService.caricaSingoloCliente(idCliente)));
         return "cliente/show";
+    }
+
+    @GetMapping("/edit/{idCliente}")
+    public String editCliente(@PathVariable(required = true) Long idCliente, Model model) {
+        model.addAttribute("edit_cliente_attr",
+                ClienteDTO.buildClienteDTOFromModel(clienteService.caricaSingoloCliente(idCliente)));
+        return "cliente/edit";
+    }
+
+    @PostMapping("/update")
+    public String updateRegista(@Valid @ModelAttribute("edit_cliente_attr") ClienteDTO clienteDTO, BindingResult result,
+                                RedirectAttributes redirectAttrs, HttpServletRequest request) {
+
+        if (result.hasErrors()) {
+            return "regista/edit";
+        }
+        clienteService.aggiorna(clienteDTO.buildClienteModel());
+
+        redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+        return "redirect:/cliente";
     }
 
 

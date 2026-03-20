@@ -41,8 +41,8 @@
                 <h5>Lista dei risultati</h5>
             </div>
             <div class='card-body'>
-                <a class="btn btn-primary " href="${pageContext.request.contextPath}/cliente/insert">Add New</a>
-                <a href="${pageContext.request.contextPath }/cliente/search" class='btn btn-outline-secondary' >
+                <a class="btn btn-primary " href="${pageContext.request.contextPath}/pizza/insert">Add New</a>
+                <a href="${pageContext.request.contextPath }/pizza/search" class='btn btn-outline-secondary' >
                     <i class='fa fa-chevron-left'></i> Torna alla Ricerca
                 </a>
 
@@ -50,23 +50,23 @@
                     <table class='table table-striped ' >
                         <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Cognome</th>
-                            <th>Indirizzo</th>
+                            <th>Descrizione</th>
+                            <th>Ingredienti</th>
+                            <th>Prezzo</th>
                             <th>Attivo</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${cliente_list_attribute }" var="clienteItem">
+                        <c:forEach items="${pizza_list_attribute }" var="pizzaItem">
                             <tr>
-                                <td>${clienteItem.nome }</td>
-                                <td>${clienteItem.cognome }</td>
-                                <td>${clienteItem.indirizzo }</td>
-                                <td>${clienteItem.attivo }</td>
+                                <td>${pizzaItem.descrizione }</td>
+                                <td>${pizzaItem.ingredienti }</td>
+                                <td>${pizzaItem.prezzo }</td>
+                                <td>${pizzaItem.attiva }</td>
                                 <td>
-                                    <a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/cliente/show/${clienteItem.id}">Visualizza</a>
-                                    <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/cliente/edit/${clienteItem.id}">Edit</a>
-                                    <a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/cliente/delete/${clienteItem.id}">Disattiva</a>
+                                    <a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/pizza/show/${pizzaItem.id}">Visualizza</a>
+                                    <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/pizza/edit/${pizzaItem.id}">Edit</a>
+                                    <a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/pizza/delete/${pizzaItem.id}">Disattiva</a>
 
                             </tr>
                         </c:forEach>

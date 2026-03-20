@@ -17,11 +17,11 @@ public class Pizza {
     @Column(name = "descrizione")
     private String descrizione;
     @Column(name = "ingredienti")
-    private List<String> ingredienti;
+    private String ingredienti;
     @Column(name = "prezzo")
-    private double prezzo;
+    private Double prezzo;
     @Column(name = "attivo")
-    private boolean attivo = true;
+    private Boolean attivo = true;
 
     @ManyToMany(mappedBy = "pizze")
     private Set<Ordine> ordini = new HashSet<>(0);
@@ -29,7 +29,7 @@ public class Pizza {
     public Pizza() {
     }
 
-    public Pizza(Long id, String descrizione, List<String> ingredienti, double prezzo, boolean attivo) {
+    public Pizza(Long id, String descrizione, String ingredienti, Double prezzo, Boolean attivo) {
         this.id = id;
         this.descrizione = descrizione;
         this.ingredienti = ingredienti;
@@ -37,14 +37,14 @@ public class Pizza {
         this.attivo = attivo;
     }
 
-    public Pizza(String descrizione, List<String> ingredienti, double prezzo, boolean attivo) {
+    public Pizza(String descrizione, String ingredienti, Double prezzo, Boolean attivo) {
         this.descrizione = descrizione;
         this.ingredienti = ingredienti;
         this.prezzo = prezzo;
         this.attivo = attivo;
     }
 
-    public Pizza(String descrizione, List<String> ingredienti, double prezzo) {
+    public Pizza(String descrizione, String ingredienti, Double prezzo) {
         this.descrizione = descrizione;
         this.ingredienti = ingredienti;
         this.prezzo = prezzo;
@@ -66,27 +66,27 @@ public class Pizza {
         this.descrizione = descrizione;
     }
 
-    public List<String> getIngredienti() {
+    public String getIngredienti() {
         return ingredienti;
     }
 
-    public void setIngredienti(List<String> ingredienti) {
+    public void setIngredienti(String ingredienti) {
         this.ingredienti = ingredienti;
     }
 
-    public double getPrezzo() {
+    public Double getPrezzo() {
         return prezzo;
     }
 
-    public void setPrezzo(double prezzo) {
+    public void setPrezzo(Double prezzo) {
         this.prezzo = prezzo;
     }
 
-    public boolean isAttivo() {
+    public Boolean getAttivo() {
         return attivo;
     }
 
-    public void setAttivo(boolean attivo) {
+    public void setAttivo(Boolean attivo) {
         this.attivo = attivo;
     }
 

@@ -19,4 +19,6 @@ public interface PizzaService {
     public void rimuovi(Long idPizza);
 
     public void disattivaPizza(Long id);
+
+    public List<Pizza> findByExample(Pizza pizzaExample);
 }
