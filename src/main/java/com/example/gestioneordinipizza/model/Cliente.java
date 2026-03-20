@@ -19,7 +19,7 @@ public class Cliente {
     @Column(name = "indirizzo")
     private String indirizzo;
     @Column(name = "attivo")
-    private boolean attivo = true;
+    private Boolean attivo = true;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
     private Set<Ordine> ordini = new HashSet<>(0);
@@ -27,7 +27,7 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(Long id, String nome, String cognome, String indirizzo, boolean attivo) {
+    public Cliente(Long id, String nome, String cognome, String indirizzo, Boolean attivo) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
@@ -35,7 +35,7 @@ public class Cliente {
         this.attivo = attivo;
     }
 
-    public Cliente(String nome, String cognome, String indirizzo) {
+    public Cliente(Long id, String nome, String cognome, String indirizzo) {
         this.nome = nome;
         this.cognome = cognome;
         this.indirizzo = indirizzo;
@@ -73,11 +73,11 @@ public class Cliente {
         this.indirizzo = indirizzo;
     }
 
-    public boolean isAttivo() {
+    public Boolean getAttivo() {
         return attivo;
     }
 
-    public void setAttivo(boolean attivo) {
+    public void setAttivo(Boolean attivo) {
         this.attivo = attivo;
     }
 

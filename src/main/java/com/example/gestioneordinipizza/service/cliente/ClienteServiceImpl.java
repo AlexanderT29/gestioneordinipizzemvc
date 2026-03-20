@@ -56,4 +56,9 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setAttivo(false);
         clienteRepository.save(cliente);
     }
+
+    @Override
+    public List<Cliente> findByExample(Cliente clienteExample) {
+        return clienteRepository.findByExample(clienteExample);
+    }
 }

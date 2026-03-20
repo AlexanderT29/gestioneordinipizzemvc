@@ -20,4 +20,6 @@ public interface ClienteService {
 
     public void disattivaCliente(Long id);
 
+    public List<Cliente> findByExample(Cliente clienteExample);
+
 }
