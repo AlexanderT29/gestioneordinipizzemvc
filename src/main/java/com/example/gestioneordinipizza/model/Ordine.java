@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "ordine")
@@ -20,9 +22,9 @@ public class Ordine {
     private LocalDateTime dataOrdine;
 
     @Column(name = "closed")
-    private boolean closed = false;
+    private Boolean closed = false;
     @Column(name = "costototale")
-    private double costoTotale;
+    private Double costoTotale;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -30,12 +32,12 @@ public class Ordine {
 
     @ManyToMany
     @JoinTable(name = "ordine_pizza", joinColumns = @JoinColumn(name = "ordine_id"), inverseJoinColumns = @JoinColumn(name = "pizza_id"))
-    private List<Pizza> pizze = new ArrayList<>(0);
+    private Set<Pizza> pizze = new HashSet<>();
 
     public Ordine() {
     }
 
-    public Ordine(Long id, LocalDateTime dataOrdine, boolean closed, double costoTotale, Cliente cliente) {
+    public Ordine(Long id, LocalDateTime dataOrdine, Boolean closed, Double costoTotale, Cliente cliente) {
         this.id = id;
         this.dataOrdine = dataOrdine;
         this.closed = closed;
@@ -43,14 +45,14 @@ public class Ordine {
         this.cliente = cliente;
     }
 
-    public Ordine(LocalDateTime dataOrdine, boolean closed, double costoTotale, Cliente cliente) {
+    public Ordine(LocalDateTime dataOrdine, Boolean closed, Double costoTotale, Cliente cliente) {
         this.dataOrdine = dataOrdine;
         this.closed = closed;
         this.costoTotale = costoTotale;
         this.cliente = cliente;
     }
 
-    public Ordine(LocalDateTime dataOrdine, boolean closed, double costoTotale) {
+    public Ordine(LocalDateTime dataOrdine, Boolean closed, Double costoTotale) {
         this.dataOrdine = dataOrdine;
         this.closed = closed;
         this.costoTotale = costoTotale;
@@ -72,19 +74,19 @@ public class Ordine {
         this.dataOrdine = dataOrdine;
     }
 
-    public boolean isClosed() {
+    public Boolean getClosed() {
         return closed;
     }
 
-    public void setClosed(boolean closed) {
+    public void setClosed(Boolean closed) {
         this.closed = closed;
     }
 
-    public double getCostoTotale() {
+    public Double getCostoTotale() {
         return costoTotale;
     }
 
-    public void setCostoTotale(double costoTotale) {
+    public void setCostoTotale(Double costoTotale) {
         this.costoTotale = costoTotale;
     }
 
@@ -96,11 +98,11 @@ public class Ordine {
         this.cliente = cliente;
     }
 
-    public List<Pizza> getPizze() {
+    public Set<Pizza> getPizze() {
         return pizze;
     }
 
-    public void setPizze(List<Pizza> pizze) {
+    public void setPizze(Set<Pizza> pizze) {
         this.pizze = pizze;
     }
 

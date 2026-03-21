@@ -4,7 +4,9 @@ import com.example.gestioneordinipizza.model.Cliente;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ClienteDTO {
@@ -19,6 +21,8 @@ public class ClienteDTO {
 
     private Boolean attivo;
 
+    private Set<OrdineDTO> ordini = new HashSet<>();
+
     public ClienteDTO() {
     }
 
@@ -28,6 +32,15 @@ public class ClienteDTO {
         this.cognome = cognome;
         this.indirizzo = indirizzo;
         this.attivo = attivo;
+    }
+
+    public ClienteDTO(Long id, String nome, String cognome, String indirizzo, Boolean attivo, Set<OrdineDTO> ordini) {
+        this.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.indirizzo = indirizzo;
+        this.attivo = attivo;
+        this.ordini = ordini;
     }
 
     public Long getId() {
@@ -68,6 +81,14 @@ public class ClienteDTO {
 
     public void setAttivo(Boolean attivo) {
         this.attivo = attivo;
+    }
+
+    public Set<OrdineDTO> getOrdini() {
+        return ordini;
+    }
+
+    public void setOrdini(Set<OrdineDTO> ordini) {
+        this.ordini = ordini;
     }
 
     public Cliente buildClienteModel() {

@@ -10,13 +10,16 @@ public interface OrdineService {
 
     public Ordine caricaSingoloOrdine(Long id);
 
-    public Ordine caricaSingoloElementoEager(Long id);
-
     public void aggiorna(Ordine ordine);
 
     public void inserisciNuovo(Ordine ordine);
 
     public void rimuovi(Long idOrdine);
 
+    public List<Ordine> listAllElementsWithCliente();
+
+    public Ordine caricaSingoloElementoEager(Long id);
+
+    public List<Ordine> findByExample(Ordine ordineExample);
 
 }

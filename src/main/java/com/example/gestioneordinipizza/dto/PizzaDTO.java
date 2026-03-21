@@ -2,6 +2,7 @@ package com.example.gestioneordinipizza.dto;
 
 import com.example.gestioneordinipizza.model.Cliente;
 import com.example.gestioneordinipizza.model.Pizza;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,6 +17,7 @@ public class PizzaDTO {
     @NotBlank(message = "{pizza.ingredienti.notblank}")
     private String ingredienti;
     @NotNull(message = "{pizza.prezzo.notnull}")
+    @Min(1)
     private Double prezzo;
 
     private Boolean attiva;

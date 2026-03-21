@@ -2,6 +2,7 @@ package com.example.gestioneordinipizza.service.ordine;
 
 import com.example.gestioneordinipizza.model.Ordine;
 import com.example.gestioneordinipizza.repository.ordine.OrdineRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class OrdineServiceImpl implements OrdineService{
 
+    @Autowired
     private OrdineRepository ordineRepository;
 
     @Override
@@ -25,7 +27,7 @@ public class OrdineServiceImpl implements OrdineService{
 
     @Override
     public Ordine caricaSingoloElementoEager(Long id) {
-        return null;
+        return ordineRepository.findByIdEager(id);
     }
 
     @Override
@@ -44,5 +46,15 @@ public class OrdineServiceImpl implements OrdineService{
     @Transactional
     public void rimuovi(Long idOrdine) {
         ordineRepository.deleteById(idOrdine);
+    }
+
+    @Override
+    public List<Ordine> listAllElementsWithCliente() {
+        return ordineRepository.findAllOrdiniEager();
+    }
+
+    @Override
+    public List<Ordine> findByExample(Ordine ordineExample) {
+        return ordineRepository.findByExample(ordineExample);
     }
 }
