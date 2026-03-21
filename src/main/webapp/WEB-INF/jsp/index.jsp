@@ -38,7 +38,7 @@
 
         <div class="p-5 mb-4 bg-light rounded-3">
 
-            <div class="container-fluid py-5" style="background: linear-gradient(to right, #006400b0, #f5f5f5b0, #ff0000b0); position: relative; border: 4px solid green">
+            <div class="container-fluid py-5" style="background: linear-gradient(to right, #006400b0, #f5f5f5b0, #ff0000b0); position: relative; border: 4px solid red">
 
                 <h1 class="display-5 fw-bold">Gestione Ordini Pizzeria</h1>
                 <p class="col-md-8 fs-4">Pannello di controllo per la gestione del menù, anagrafica clienti e storico ordini.</p>

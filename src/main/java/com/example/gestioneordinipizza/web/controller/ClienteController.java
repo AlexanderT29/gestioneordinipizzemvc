@@ -78,7 +78,7 @@ public class ClienteController {
     }
 
     @GetMapping("/show/{idCliente}")
-    public String showFilm(@PathVariable(required = true) Long idCliente, Model model) {
+    public String showCliente(@PathVariable(required = true) Long idCliente, Model model) {
         model.addAttribute("show_cliente_attr",
                 ClienteDTO.buildClienteDTOFromModel(clienteService.caricaSingoloCliente(idCliente)));
         return "cliente/show";
@@ -92,11 +92,11 @@ public class ClienteController {
     }
 
     @PostMapping("/update")
-    public String updateRegista(@Valid @ModelAttribute("edit_cliente_attr") ClienteDTO clienteDTO, BindingResult result,
+    public String updateCliente(@Valid @ModelAttribute("edit_cliente_attr") ClienteDTO clienteDTO, BindingResult result,
                                 RedirectAttributes redirectAttrs, HttpServletRequest request) {
 
         if (result.hasErrors()) {
-            return "regista/edit";
+            return "cliente/edit";
         }
         clienteService.aggiorna(clienteDTO.buildClienteModel());
 

@@ -7,4 +7,27 @@
 
 <style>
     main > .container { padding: 60px 15px 0; }
+    .btn-outline-puro {
+        color: #ff0000;
+        border-color: #ff0000;
+        background-color: transparent;
+    }
+
+    .btn-outline-puro:hover {
+        color: #ffffff;
+        background-color: #ff0000;
+        border-color: #ff0000;
+    }
+
+    .btn-outline-orange {
+        color: orangered;
+        border-color: orangered;
+        background-color: transparent;
+    }
+
+    .btn-outline-orange:hover{
+        color: #ffffff;
+        background-color: orangered;
+        border-color: orangered;
+    }
 </style>
