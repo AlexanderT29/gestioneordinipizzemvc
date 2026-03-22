@@ -38,6 +38,11 @@ public class CustomOrdineRepositoryImpl implements CustomOrdineRepository{
             paramaterMap.put("costoTotale", ordineExample.getCostoTotale());
         }
 
+        if(StringUtils.isNoneBlank(ordineExample.getCodice())){
+            whereClauses.add(" o.codice = :codice");
+            paramaterMap.put("codice", ordineExample.getCodice());
+        }
+
         queryBuilder.append(!whereClauses.isEmpty()?" and ":"");
         queryBuilder.append(StringUtils.join(whereClauses, " and "));
 

@@ -27,7 +27,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente caricaSingoloElementoEager(Long id) {
-        return null;
+        return clienteRepository.findClienteEager(id);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.gestioneordinipizza.dto;
 
 import com.example.gestioneordinipizza.model.Cliente;
+import com.example.gestioneordinipizza.model.Ordine;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,6 +19,7 @@ public class ClienteDTO {
     private String cognome;
     @NotBlank(message = "{cliente.inidirizzo.notblank}")
     private String indirizzo;
+
 
     private Boolean attivo;
 
@@ -92,11 +94,34 @@ public class ClienteDTO {
     }
 
     public Cliente buildClienteModel() {
-        return new Cliente(this.id, this.nome, this.cognome, this.indirizzo, this.attivo);
+        Cliente result = new Cliente();
+        result.setId(this.id);
+        result.setNome(this.nome);
+        result.setCognome(this.cognome);
+        result.setIndirizzo(this.indirizzo);
+        result.setAttivo(this.attivo);
+        if(this.getOrdini() != null && !this.getOrdini().isEmpty()){
+            Set<Ordine> ordini = this.ordini.stream()
+                    .map(OrdineDTO::buildOrdineFromDTO)
+                    .collect(Collectors.toSet());
+            result.setOrdini(ordini);
+        }
+        return result;
     }
 
     public static ClienteDTO buildClienteDTOFromModel(Cliente cliente){
-        return new ClienteDTO(cliente.getId(), cliente.getNome(), cliente.getCognome(), cliente.getIndirizzo(), cliente.getAttivo());
+        ClienteDTO result = new ClienteDTO();
+        result.setId(cliente.getId());
+        result.setNome(cliente.getNome());
+        result.setCognome(cliente.getCognome());
+        result.setIndirizzo(cliente.getIndirizzo());
+        result.setAttivo(cliente.getAttivo());
+        if (cliente.getOrdini() != null && !cliente.getOrdini().isEmpty()) {
+            result.setOrdini(cliente.getOrdini().stream()
+                    .map(ordineModel -> OrdineDTO.buildOrdineDTOFromModel(ordineModel, false))
+                    .collect(Collectors.toSet()));
+        }
+        return result;
     }
 
     public static List<ClienteDTO> createClienteDTOListFromModelList(List<Cliente> listInput){

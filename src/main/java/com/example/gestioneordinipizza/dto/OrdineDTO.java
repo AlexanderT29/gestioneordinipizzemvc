@@ -2,7 +2,9 @@ package com.example.gestioneordinipizza.dto;
 
 import com.example.gestioneordinipizza.model.Ordine;
 import com.example.gestioneordinipizza.model.Pizza;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class OrdineDTO {
 
     private Long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @NotNull(message = "{ordine.dataordine.notnull}")
     private LocalDateTime dataOrdine;
 
@@ -23,6 +26,8 @@ public class OrdineDTO {
 
     @NotNull(message = "{ordine.costoTotale.notnull}")
     private Double costoTotale;
+
+    private String codice;
 
     @NotNull(message = "{ordine.insiemePizze.notnull}")
     private Set<PizzaDTO> insiemePizze = new HashSet<>();
@@ -42,11 +47,12 @@ public class OrdineDTO {
         this.costoTotale = costoTotale;
     }
 
-    public OrdineDTO(Long id, LocalDateTime dataOrdine, Boolean closed, Double costoTotale, Set<PizzaDTO> insiemePizze, ClienteDTO clienteDTO) {
+    public OrdineDTO(Long id, LocalDateTime dataOrdine, Boolean closed, Double costoTotale, String codice, Set<PizzaDTO> insiemePizze, ClienteDTO clienteDTO) {
         this.id = id;
         this.dataOrdine = dataOrdine;
         this.closed = closed;
         this.costoTotale = costoTotale;
+        this.codice = codice;
         this.insiemePizze = insiemePizze;
         this.clienteDTO = clienteDTO;
     }
@@ -79,8 +85,18 @@ public class OrdineDTO {
         return costoTotale;
     }
 
+    public String getCodice() {
+        return codice;
+    }
+
+    public void setCodice(String codice) {
+        this.codice = codice;
+    }
+
     public void setCostoTotale(Double costoTotale) {
         this.costoTotale = costoTotale;
+
+
     }
 
     public Set<PizzaDTO> getInsiemePizze() {
@@ -113,13 +129,18 @@ public class OrdineDTO {
         result.setDataOrdine(ordineModel.getDataOrdine());
         result.setClosed(ordineModel.getClosed());
         result.setCostoTotale(ordineModel.getCostoTotale());
+        result.setCodice(ordineModel.getCodice());
         if(includeClientiEPizze) {
             if(ordineModel.getCliente() != null) {
                 result.setClienteDTO(ClienteDTO.buildClienteDTOFromModel(ordineModel.getCliente()));
             }
             if (ordineModel.getPizze() != null && !ordineModel.getPizze().isEmpty()) {
+                Long[] arrayIds = ordineModel.getPizze().stream()
+                        .map(pizza -> pizza.getId())
+                        .toArray(Long[]::new);
+                result.setPizzeIds(arrayIds);
                 result.setInsiemePizze(ordineModel.getPizze().stream()
-                        .map(PizzaDTO::buildPizzaDTOFromModel)
+                        .map(pizzaModel -> PizzaDTO.buildPizzaDTOFromModel(pizzaModel))
                         .collect(Collectors.toSet()));
             }
         }
@@ -132,6 +153,7 @@ public class OrdineDTO {
         result.setDataOrdine(this.dataOrdine);
         result.setClosed(this.closed);
         result.setCostoTotale(this.costoTotale);
+        result.setCodice(this.codice);
         if(this.clienteDTO != null) {
             result.setCliente(this.clienteDTO.buildClienteModel());
         }

@@ -1,6 +1,7 @@
 package com.example.gestioneordinipizza.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,7 @@ public class Cliente {
     @Column(name = "attivo")
     private Boolean attivo = true;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Ordine> ordini = new HashSet<>(0);
 
     public Cliente() {
@@ -39,6 +40,15 @@ public class Cliente {
         this.nome = nome;
         this.cognome = cognome;
         this.indirizzo = indirizzo;
+    }
+
+    public Cliente(Long id, String nome, String cognome, String indirizzo, Boolean attivo, Set<Ordine> ordini) {
+        this.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.indirizzo = indirizzo;
+        this.attivo = attivo;
+        this.ordini = ordini;
     }
 
     public Long getId() {

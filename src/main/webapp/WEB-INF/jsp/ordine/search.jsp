@@ -30,6 +30,13 @@
                     </div>
 
                     <div class="col-md-4">
+                        <label for="codice" class="form-label">Codice</label>
+                        <spring:bind path="codice">
+                            <input type="text" class="form-control" name="codice" id="codice">
+                        </spring:bind>
+                    </div>
+
+                    <div class="col-md-4">
                         <label for="closed" class="form-label">Stato Ordine</label>
                         <spring:bind path="closed">
                             <select class="form-select" name="closed" id="closed">

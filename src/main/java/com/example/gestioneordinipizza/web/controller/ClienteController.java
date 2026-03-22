@@ -80,7 +80,24 @@ public class ClienteController {
     @GetMapping("/show/{idCliente}")
     public String showCliente(@PathVariable(required = true) Long idCliente, Model model) {
         model.addAttribute("show_cliente_attr",
-                ClienteDTO.buildClienteDTOFromModel(clienteService.caricaSingoloCliente(idCliente)));
+                ClienteDTO.buildClienteDTOFromModel(clienteService.caricaSingoloElementoEager(idCliente)));
+        Cliente cliente = clienteService.caricaSingoloElementoEager(idCliente);
+        /*System.out.println("--- DETECTIVE CLIENTE ---");
+        System.out.println("Sto cercando il Cliente con ID: " + idCliente);
+        if (cliente.getOrdini() != null) {
+            System.out.println("Numero di ordini che Hibernate ha trovato nel DB: " + cliente.getOrdini().size());
+        } else {
+            System.out.println("ALLARME: La scatola degli ordini è NULL!");
+        }
+
+        // Convertiamo il DTO
+        ClienteDTO dtoConvertito = ClienteDTO.buildClienteDTOFromModel(cliente);
+
+        // Guardiamo cosa c'è DENTRO il DTO appena convertito!
+        System.out.println("Numero di ordini sopravvissuti nel DTO: " + dtoConvertito.getOrdini().size());
+        System.out.println("-------------------------");
+        // --- FINE SPIA DEBUG ---
+         */
         return "cliente/show";
     }
 

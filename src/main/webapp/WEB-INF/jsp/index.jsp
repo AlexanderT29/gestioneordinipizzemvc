@@ -42,7 +42,7 @@
 
                 <h1 class="display-5 fw-bold">Gestione Ordini Pizzeria</h1>
                 <p class="col-md-8 fs-4">Pannello di controllo per la gestione del menù, anagrafica clienti e storico ordini.</p>
-                <a class="btn btn-primary btn-lg" style="background: darkgreen" href="${pageContext.request.contextPath}/ordine/search">Vai agli Ordini</a>
+                <a class="btn btn-primary btn-lg" style="background: darkgreen" href="${pageContext.request.contextPath}/ordine">Vai agli Ordini</a>
             </div>
         </div>
 

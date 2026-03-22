@@ -17,4 +17,6 @@ public interface OrdineRepository extends JpaRepository<Ordine, Long>, PagingAnd
 
     @Query("select o from Ordine o left join fetch o.cliente left join fetch o.pizze where o.id = :id")
     Ordine findByIdEager(@Param("id") Long id);
+
+
 }

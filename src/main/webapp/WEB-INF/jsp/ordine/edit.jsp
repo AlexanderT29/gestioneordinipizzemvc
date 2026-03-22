@@ -7,7 +7,7 @@
 <html lang="it" class="h-100">
 <head>
     <jsp:include page="../header.jsp" />
-    <title>Inserisci Nuovo Ordine</title>
+    <title>Modifica Ordine</title>
     <style>
 
         .pizza-checkbox:checked {
@@ -29,11 +29,14 @@
     <div class="container">
         <div class='card'>
             <div class='card-header'>
-                <h5>Inserisci nuovo ordine</h5>
+                <h5>Modifica ordine</h5>
             </div>
             <div class='card-body'>
 
-                <form:form method="post" modelAttribute="insert_ordine_attr" action="${pageContext.request.contextPath}/ordine/save" class="row g-3">
+                <form:form method="post" modelAttribute="edit_ordine_attr" action="${pageContext.request.contextPath}/ordine/update" class="row g-3">
+                    <input type="hidden" name="id" value="${edit_ordine_attr.id}">
+                    <input type="hidden" name="closed" value="${edit_ordine_attr.closed}">
+                    <input type="hidden" name="codice" value="${edit_ordine_attr.codice}">
 
                     <div class="col-md-6">
                         <label for="dataOrdine" class="form-label">Data e Ora Ordine <span class="text-danger">*</span></label>
@@ -51,11 +54,19 @@
                         <form:errors path="costoTotale" cssClass="text-danger" />
                     </div>
 
+                    <div class="col-md-6">
+                        <label for="codice" class="form-label">Codice <span class="text-danger">*</span></label>
+                        <spring:bind path="codice">
+                            <input type="text" step="0.01" class="form-control ${status.error ? 'is-invalid' : ''}" name="codice" id="codice" value="${status.value}" required>
+                        </spring:bind>
+                        <form:errors path="codice" cssClass="text-danger" />
+                    </div>
+
                     <div class="col-md-6 mt-4">
-                        <label for="clienteDTO.id" class="form-label">Cliente <span class="text-danger">*</span></label>
+                        <label for="clienteDTO.id" class="form-label">Ordine <span class="text-danger">*</span></label>
                         <spring:bind path="clienteDTO.id">
                             <select class="form-select ${status.error ? 'is-invalid' : ''}" name="clienteDTO.id" id="clienteDTO.id" required>
-                                <option value="" selected>- Seleziona un Cliente -</option>
+                                <option value="" selected>- Seleziona un Ordine -</option>
                                 <c:forEach items="${clienti_list_attribute}" var="clienteItem">
                                     <option value="${clienteItem.id}" ${clienteItem.id == status.value ? 'selected' : ''}>${clienteItem.nome} ${clienteItem.cognome}</option>
                                 </c:forEach>
@@ -69,10 +80,17 @@
                         <div class="border p-3 rounded">
 
                             <c:forEach items="${pizze_list_attribute}" var="pizzaItem">
+                                <c:set var="isChecked" value="false" />
+                                <c:forEach items="${edit_ordine_attr.pizzeIds}" var="selPizzaId">
+                                    <c:if test="${selPizzaId == pizzaItem.id}">
+                                        <c:set var="isChecked" value="true" />
+                                    </c:if>
+                                </c:forEach>
+
                                 <div class="form-check mb-2" >
                                     <input class="form-check-input pizza-checkbox" type="checkbox"
                                            name="pizzeIds" id="pizza_${pizzaItem.id}" value="${pizzaItem.id}"
-                                           data-prezzo="${pizzaItem.prezzo}">
+                                           data-prezzo="${pizzaItem.prezzo}" ${isChecked ? 'checked' : ''}>
                                     <label class="form-check-label" for="pizza_${pizzaItem.id}">
                                             ${pizzaItem.descrizione} (€${pizzaItem.prezzo})
                                     </label>
@@ -84,7 +102,7 @@
                     </div>
 
                     <div class="col-12 mt-4">
-                        <button type="submit" class="btn btn-outline-orange">Conferma</button>
+                        <button type="submit" class="btn btn-outline-orange">Aggiorna Ordine</button>
                         <a class="btn btn-outline-secondary ml-2" href="${pageContext.request.contextPath}/ordine">Annulla</a>
                     </div>
 

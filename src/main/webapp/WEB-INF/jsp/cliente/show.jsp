@@ -1,4 +1,5 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="it" class="h-100">
@@ -48,41 +49,63 @@
                 </dl>
 
 
-                <!-- info Regista -->
-                <!-- <p>
+                <!-- info Ordini -->
+                <p>
                     <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        Info Regista
+                        Info Ordini
                     </a>
                 </p>
                 <div class="collapse" id="collapseExample">
                     <div class="card card-body">
-                        <dl class="row">
-                            <dt class="col-sm-3 text-right">Nome:</dt>
-                            <dd class="col-sm-9">${show_film_attr.regista.nome}</dd>
-                        </dl>
-                        <dl class="row">
-                            <dt class="col-sm-3 text-right">Cognome:</dt>
-                            <dd class="col-sm-9">${show_film_attr.regista.cognome}</dd>
-                        </dl>
-                        <dl class="row">
-                            <dt class="col-sm-3 text-right">Nickname:</dt>
-                            <dd class="col-sm-9">${show_film_attr.regista.nickName}</dd>
-                        </dl>
-                        <dl class="row">
-                            <dt class="col-sm-3 text-right">Sesso:</dt>
-                            <dd class="col-sm-9">${show_film_attr.regista.sesso}</dd>
-                        </dl>
+                        <c:choose>
+                        <c:when test="${empty show_cliente_attr.ordini}">
+                        <div class="alert alert-warning mb-0" role="alert">
+                            Questo cliente non ha ancora effettuato nessun ordine.
+                        </div>
+                        </c:when>
+                            <c:otherwise>
+                                <table class="table table-sm table-striped table-hover mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>ID Ordine</th>
+                                        <th>Data Ordine</th>
+                                        <th>Stato</th>
+                                        <th>Azione</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach items="${show_cliente_attr.ordini}" var="ordineItem">
+                                        <tr>
+                                            <td>${ordineItem.id}</td>
 
-                    </div>
-                    -->
-                    <!-- end info Regista -->
+                                            <td>${ordineItem.dataOrdine.toString().replace('T', ' ')}</td>
+
+                                            <td>
+                                    <span class="badge ${ordineItem.closed ? 'bg-danger' : 'bg-success'}">
+                                            ${ordineItem.closed ? 'Chiuso' : 'Aperto'}
+                                    </span>
+                                            </td>
+
+                                            <td>
+                                                <a class="btn btn-outline-primary btn-sm" href="${pageContext.request.contextPath}/ordine/show/${ordineItem.id}">
+                                                    Vedi Dettaglio
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:otherwise>
+                        </c:choose>
+
+                    <!-- end info Ordine -->
                 </div>
 
                 <!-- end card body -->
             </div>
 
             <div class='card-footer'>
-                <a href="${pageContext.request.contextPath }/film/" class='btn btn-outline-secondary' style='width:80px'>
+                <a href="${pageContext.request.contextPath }/cliente/" class='btn btn-outline-secondary' style='width:80px'>
                     <i class='fa fa-chevron-left'></i> Back
                 </a>
             </div>
@@ -90,6 +113,7 @@
         </div>
 
         <!-- end container -->
+    </div>
     </div>
 
 </main>

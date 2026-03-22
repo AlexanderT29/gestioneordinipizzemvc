@@ -39,6 +39,7 @@
                         <th>Data</th>
                         <th>Costo Totale</th>
                         <th>Stato</th>
+                        <th>Codice</th>
                         <th>Cliente</th>
                         <th>Azioni</th>
                     </tr>
@@ -49,16 +50,19 @@
                             <td>${ordineItem.id}</td>
                             <td>${ordineItem.dataOrdine.toString().replace('T', ' ')}</td>
                             <td>€ ${ordineItem.costoTotale}</td>
+
                             <td>
                                     <span class="badge ${ordineItem.closed ? 'bg-danger' : 'bg-success'}">
                                             ${ordineItem.closed ? 'Chiuso' : 'Aperto'}
                                     </span>
                             </td>
+                            <td>${ordineItem.codice}</td>
                             <td>${ordineItem.clienteDTO.nome} ${ordineItem.clienteDTO.cognome}</td>
                             <td>
                                 <a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/ordine/show/${ordineItem.id}">Visualizza</a>
                                 <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/ordine/edit/${ordineItem.id}">Modifica</a>
-                                <a class="btn btn-sm btn-outline-danger" href="${pageContext.request.contextPath}/ordine/delete/${ordineItem.id}">Elimina</a>
+                                <a class="btn btn-sm btn-outline-orange" href="${pageContext.request.contextPath}/ordine/delete/${ordineItem.id}">Chiudi</a>
+                                <a class="btn btn-sm btn-outline-danger" href="${pageContext.request.contextPath}/ordine/deletedefinitivo/${ordineItem.id}">Elimina</a>
                             </td>
                         </tr>
                     </c:forEach>
