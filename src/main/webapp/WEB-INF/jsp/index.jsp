@@ -55,36 +55,37 @@
 
     </div>
 
-    <div id="carouselExampleSlideOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div id="caroselloPizza" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="false">
 
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://t4.ftcdn.net/jpg/04/44/86/71/360_F_444867155_rhsOresSJWWz85dJ7x65fuxH7zyJOMlR.jpg" class="d-block w-100" alt="...">
+                <img src="https://t4.ftcdn.net/jpg/04/44/86/71/360_F_444867155_rhsOresSJWWz85dJ7x65fuxH7zyJOMlR.jpg" class="d-block w-100" alt="Pizza napoletana originale">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Pizza napoletana originale</h5>
                     <p>La pizza è fatta con gli ingredienti della terra.</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://cdn.thefork.com/tf-lab/image/upload/restaurant/67a2b2a5-9ce5-4628-a15e-cbc8d8c9ecea/e27ea305-dcbc-40b3-a9d8-94f2fc8c062f.jpg" class="d-block w-100" alt="...">
+                <img src="https://cdn.thefork.com/tf-lab/image/upload/restaurant/67a2b2a5-9ce5-4628-a15e-cbc8d8c9ecea/e27ea305-dcbc-40b3-a9d8-94f2fc8c062f.jpg" class="d-block w-100" alt="Ingredienti freschi">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Ingredienti Freschi</h5>
                     <p>J eni tuttu frisci appena cucghiutu.</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://www.molinosquillario.it/wp-content/uploads/2023/01/pizza-napoletana-forno-1024x683.jpg" class="d-block w-100" alt="...">
+                <img src="https://www.molinosquillario.it/wp-content/uploads/2023/01/pizza-napoletana-forno-1024x683.jpg" class="d-block w-100" alt="Forno a legna">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Mancia, arricriati ma un ti squadari..</h5>
                     <p>Cogliti la ligna pi fari u focu o ti manci'i petri..</p>
                 </div>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#caroselloPizza" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#caroselloPizza" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
