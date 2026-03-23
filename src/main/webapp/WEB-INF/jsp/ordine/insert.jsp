@@ -74,13 +74,19 @@
                                            name="pizzeIds" id="pizza_${pizzaItem.id}" value="${pizzaItem.id}"
                                            data-prezzo="${pizzaItem.prezzo}">
                                     <label class="form-check-label" for="pizza_${pizzaItem.id}">
-                                            ${pizzaItem.descrizione} (€${pizzaItem.prezzo})
+                                        <strong>${pizzaItem.descrizione}</strong> (€${pizzaItem.prezzo})
                                     </label>
                                 </div>
                             </c:forEach>
 
                         </div>
                         <form:errors path="pizzeIds" cssClass="text-danger" />
+                    </div>
+
+                    <div class = "col-md-12 mt-4">
+                        <label for="fattorino" class = "form-label" >Seleziona Fattorino<span class="text-danger">*</span></label>
+                        <input type="text" class="form-cotrol" name="fattorino" id="fattorino" required>
+
                     </div>
 
                     <div class="col-12 mt-4">
@@ -106,6 +112,7 @@
                 document.querySelectorAll('.pizza-checkbox:checked').forEach(function(checkedBox) {
                     totale += parseFloat(checkedBox.getAttribute('data-prezzo'));
                 });
+                totale = totale * 1.15;
                 costoTotaleInput.value = totale.toFixed(2);
             });
         });

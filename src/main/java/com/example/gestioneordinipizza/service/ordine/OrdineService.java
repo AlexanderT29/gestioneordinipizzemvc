@@ -2,6 +2,7 @@ package com.example.gestioneordinipizza.service.ordine;
 
 import com.example.gestioneordinipizza.model.Ordine;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrdineService {
@@ -21,5 +22,9 @@ public interface OrdineService {
     public Ordine caricaSingoloElementoEager(Long id);
 
     public List<Ordine> findByExample(Ordine ordineExample);
+
+    public List<Ordine> ordiniTraDate(LocalDateTime dataInizio, LocalDateTime dataFine);
+
+    public double calcolaPrezzoOrdine(Long idOrdine);
 
 }

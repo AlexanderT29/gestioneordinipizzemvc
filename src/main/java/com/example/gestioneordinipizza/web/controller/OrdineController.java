@@ -5,12 +5,14 @@ import com.example.gestioneordinipizza.dto.OrdineDTO;
 import com.example.gestioneordinipizza.dto.PizzaDTO;
 import com.example.gestioneordinipizza.model.Cliente;
 import com.example.gestioneordinipizza.model.Ordine;
+import com.example.gestioneordinipizza.model.Pizza;
 import com.example.gestioneordinipizza.service.cliente.ClienteService;
 import com.example.gestioneordinipizza.service.ordine.OrdineService;
 import com.example.gestioneordinipizza.service.pizza.PizzaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -83,7 +85,20 @@ public class OrdineController {
         }
         ordineDTO.setClosed(false);
         ordineDTO.setCodice("GOP" + LocalDateTime.now());
-        ordineService.inserisciNuovo(ordineDTO.buildOrdineFromDTO());
+        Ordine ordine = ordineDTO.buildOrdineFromDTO();
+        ordine.getPizze().clear();
+        if (ordineDTO.getPizzeIds() != null && ordineDTO.getPizzeIds().length > 0){
+            for (Long idPizza: ordineDTO.getPizzeIds()){
+                Pizza pizzaVera = pizzaService.caricaSingoloPizza(idPizza);
+                ordine.getPizze().add(pizzaVera);
+            }
+        }
+        ordineService.inserisciNuovo(ordine);
+        try {
+            ordineService.calcolaPrezzoOrdine(ordine.getId());
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
+        }
         redirectAttrs.addFlashAttribute("successMessage", "Ordine creato con successo");
         return "redirect:/ordine";
     }
@@ -168,6 +183,46 @@ public class OrdineController {
         // --- FINE SPIA DEBUG ---
          */
         return "ordine/show";
+    }
+
+    @PostMapping("/listdate")
+    public ModelAndView listOrdiniTraDate(@RequestParam("dataInizio") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime dataInizio,
+                                          @RequestParam("dataFine") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime dataFine,
+                                          RedirectAttributes redirectAttributes) {
+        ModelAndView mv = new ModelAndView();
+        try {
+            List<Ordine> ordini = ordineService.ordiniTraDate(dataInizio, dataFine);
+            List<Cliente> clientiVirtuosi = clienteService.cercaClientiVirtuosi();
+            mv.addObject("ordine_list_attribute", OrdineDTO.createOrdineDTOListFromModelList(ordini, true));
+            mv.addObject("successMessage", "Ricerca completata: trovati " + ordini.size() + " ordini.");
+            double ricavi = 0.0;
+            double costi = 0.0;
+            int pizzeTotali = 0;
+            for(Ordine ordine: ordini){
+                ricavi += ordine.getCostoTotale();
+                costi += ordine.getCostoTotale()/1.15;
+                pizzeTotali += ordine.getPizze().size();
+
+            }
+            mv.addObject("ricavi_totali", ricavi);
+            mv.addObject("costi_totali", costi);
+            mv.addObject("dimensione", ordini.size());
+            mv.addObject("pizze_totali", pizzeTotali);
+            mv.addObject("clientiv_list_attribute", ClienteDTO.createClienteDTOListFromModelList(clientiVirtuosi));
+            System.out.println("ricavi: " + ricavi + " costi: " + costi);
+            mv.setViewName("ordine/statistiche");
+        } catch (RuntimeException e) {
+            mv.setViewName("redirect:/ordine/searchdate");
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return mv;
+    }
+
+    @GetMapping("/searchdate")
+    public String searchOrdineDate(Model model) {
+        model.addAttribute("search_ordine_attr", new OrdineDTO());
+        model.addAttribute("clienti_list_attribute", ClienteDTO.createClienteDTOListFromModelList(clienteService.listAllElements()));
+        return "ordine/searchdate";
     }
 
 }

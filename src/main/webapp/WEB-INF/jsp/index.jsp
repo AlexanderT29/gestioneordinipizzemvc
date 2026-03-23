@@ -38,7 +38,7 @@
 
         <div class="p-5 mb-4 bg-light rounded-3">
 
-            <div class="container-fluid py-5" style="background: linear-gradient(to right, #006400b0, #f5f5f5b0, #ff0000b0); position: relative; border: 4px solid red">
+            <div class="container-fluid py-5" style="background: coral">
 
                 <h1 class="display-5 fw-bold">Gestione Ordini Pizzeria</h1>
                 <p class="col-md-8 fs-4">Pannello di controllo per la gestione del menù, anagrafica clienti e storico ordini.</p>
@@ -87,6 +87,20 @@
                 </a>
             </div>
 
+        </div>
+
+        <div class="row g-5 py-5 row-cols-1 row-cols-lg-3">
+            <div class="feature col" >
+                <div class="feature-icon bg-gradient"  style = "background: red">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+                </div>
+                <h2>Cerca Ordini tra due Date</h2>
+                <p>Cerca i tuoi ordini tra due date in modo veloce!</p>
+                <a href="${pageContext.request.contextPath}/ordine/searchdate" class="icon-link">
+                    Vai alla funzionalità
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
+                </a>
+            </div>
         </div>
     </div>
 

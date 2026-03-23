@@ -22,4 +22,6 @@ public interface ClienteService {
 
     public List<Cliente> findByExample(Cliente clienteExample);
 
+    public List<Cliente> cercaClientiVirtuosi();
+
 }

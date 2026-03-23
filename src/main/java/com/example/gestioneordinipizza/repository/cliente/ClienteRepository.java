@@ -13,4 +13,7 @@ import java.util.List;
 public interface ClienteRepository extends JpaRepository<Cliente, Long>, PagingAndSortingRepository<Cliente, Long>, JpaSpecificationExecutor<Cliente>, CustomClienteRepository{
     @Query("select c from Cliente c left join fetch c.ordini where c.id = :id")
     Cliente findClienteEager(@Param("id") Long id);
+
+    @Query("select c from Cliente c left join fetch c.ordini o where o.costoTotale > 100 ")
+    List<Cliente> cercaClientiVirtuosi();
 }

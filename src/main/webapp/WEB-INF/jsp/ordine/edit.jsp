@@ -62,6 +62,11 @@
                         <form:errors path="codice" cssClass="text-danger" />
                     </div>
 
+                    <div class = "col-md-12 mt-4">
+                        <label for="fattorino" class = "form-label" >Seleziona Fattorino<span class="text-danger">*</span></label>
+                        <input type="text" class="form-cotrol" name="fattorino" id="fattorino" required>
+                    </div>
+
                     <div class="col-md-6 mt-4">
                         <label for="clienteDTO.id" class="form-label">Ordine <span class="text-danger">*</span></label>
                         <spring:bind path="clienteDTO.id">
@@ -124,6 +129,7 @@
                 document.querySelectorAll('.pizza-checkbox:checked').forEach(function(checkedBox) {
                     totale += parseFloat(checkedBox.getAttribute('data-prezzo'));
                 });
+                totale = totale * 1.15;
                 costoTotaleInput.value = totale.toFixed(2);
             });
         });

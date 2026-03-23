@@ -24,7 +24,6 @@ public class OrdineDTO {
     @NotNull(message = "{ordine.closed.notnull}")
     private Boolean closed = false;
 
-    @NotNull(message = "{ordine.costoTotale.notnull}")
     private Double costoTotale;
 
     private String codice;
