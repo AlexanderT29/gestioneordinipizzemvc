@@ -69,7 +69,7 @@ public class OrdineServiceImpl implements OrdineService{
     }
 
     @Override
-    public double calcolaPrezzoOrdine(Long idOrdine) {
+    public double calcolaPrezzoOrdine(Long idOrdine, int ordiniEffettuati) {
         Ordine ordine = ordineRepository.findByIdEager(idOrdine);
         double result = 0.0;
         if(ordine == null || ordine.getPizze() == null || ordine.getPizze().isEmpty()){
@@ -79,8 +79,18 @@ public class OrdineServiceImpl implements OrdineService{
             result += pizza.getPrezzo();
         }
         result *= 1.15;
+
+        if(ordiniEffettuati == 9){
+            result *= 0.90;
+        } else if (ordiniEffettuati == 19){
+            result *= 0.80;
+        }
         ordine.setCostoTotale(result);
         ordineRepository.save(ordine);
         return result;
     }
+
+
+
+
 }

@@ -25,6 +25,8 @@ public interface OrdineService {
 
     public List<Ordine> ordiniTraDate(LocalDateTime dataInizio, LocalDateTime dataFine);
 
-    public double calcolaPrezzoOrdine(Long idOrdine);
+    public double calcolaPrezzoOrdine(Long idOrdine, int ordiniEffettuati);
+
+
 
 }

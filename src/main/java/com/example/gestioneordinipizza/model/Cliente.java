@@ -22,6 +22,7 @@ public class Cliente {
     @Column(name = "attivo")
     private Boolean attivo = true;
 
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Ordine> ordini = new HashSet<>(0);
 

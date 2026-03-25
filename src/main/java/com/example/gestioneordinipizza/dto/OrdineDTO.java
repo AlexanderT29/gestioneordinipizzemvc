@@ -31,8 +31,10 @@ public class OrdineDTO {
     @NotNull(message = "{ordine.insiemePizze.notnull}")
     private Set<PizzaDTO> insiemePizze = new HashSet<>();
 
-    @NotNull(message = "{ordine.clienteDTO.notnull}")
+
     private ClienteDTO clienteDTO;
+
+    private ClienteDTOConteggio clienteDTOConteggio;
 
     private Long[] pizzeIds;
 
@@ -46,7 +48,7 @@ public class OrdineDTO {
         this.costoTotale = costoTotale;
     }
 
-    public OrdineDTO(Long id, LocalDateTime dataOrdine, Boolean closed, Double costoTotale, String codice, Set<PizzaDTO> insiemePizze, ClienteDTO clienteDTO) {
+    public OrdineDTO(Long id, LocalDateTime dataOrdine, Boolean closed, Double costoTotale, String codice, Set<PizzaDTO> insiemePizze, ClienteDTO clienteDTO, ClienteDTOConteggio clienteDTOConteggio) {
         this.id = id;
         this.dataOrdine = dataOrdine;
         this.closed = closed;
@@ -54,6 +56,7 @@ public class OrdineDTO {
         this.codice = codice;
         this.insiemePizze = insiemePizze;
         this.clienteDTO = clienteDTO;
+        this.clienteDTOConteggio = clienteDTOConteggio;
     }
 
     public Long getId() {
@@ -112,6 +115,14 @@ public class OrdineDTO {
 
     public void setClienteDTO(ClienteDTO clienteDTO) {
         this.clienteDTO = clienteDTO;
+    }
+
+    public ClienteDTOConteggio getClienteDTOConteggio() {
+        return clienteDTOConteggio;
+    }
+
+    public void setClienteDTOConteggio(ClienteDTOConteggio clienteDTOConteggio) {
+        this.clienteDTOConteggio = clienteDTOConteggio;
     }
 
     public Long[] getPizzeIds() {

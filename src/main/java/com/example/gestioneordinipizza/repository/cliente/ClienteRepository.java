@@ -1,5 +1,6 @@
 package com.example.gestioneordinipizza.repository.cliente;
 
+import com.example.gestioneordinipizza.dto.ClienteDTOConteggio;
 import com.example.gestioneordinipizza.model.Cliente;
 import com.example.gestioneordinipizza.model.Ordine;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,10 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long>, PagingA
 
     @Query("select c from Cliente c left join fetch c.ordini o where o.costoTotale > 100 ")
     List<Cliente> cercaClientiVirtuosi();
+
+    @Query("SELECT new com.example.gestioneordinipizza.dto.ClienteDTOConteggio(c.id, c.nome, c.cognome, COUNT(o)) " +
+            "FROM Cliente c " +
+            "LEFT JOIN c.ordini o " +
+            "GROUP BY c.id, c.nome, c.cognome")
+    List<ClienteDTOConteggio> findClientiConNumeroOrdini();
 }

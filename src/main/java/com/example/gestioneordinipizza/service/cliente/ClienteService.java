@@ -1,5 +1,6 @@
 package com.example.gestioneordinipizza.service.cliente;
 
+import com.example.gestioneordinipizza.dto.ClienteDTOConteggio;
 import com.example.gestioneordinipizza.model.Cliente;
 
 import java.util.List;
@@ -23,5 +24,7 @@ public interface ClienteService {
     public List<Cliente> findByExample(Cliente clienteExample);
 
     public List<Cliente> cercaClientiVirtuosi();
+
+    public List<ClienteDTOConteggio> cercaListaClientiConNumeroOrdini();
 
 }

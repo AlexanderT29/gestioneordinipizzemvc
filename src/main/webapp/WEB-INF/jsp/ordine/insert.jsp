@@ -46,22 +46,33 @@
                     <div class="col-md-6">
                         <label for="costoTotale" class="form-label">Costo Totale (€) <span class="text-danger">*</span></label>
                         <spring:bind path="costoTotale">
-                            <input type="number" step="0.01" class="form-control ${status.error ? 'is-invalid' : ''}" name="costoTotale" id="costoTotale" value="${status.value}" required>
+                            <input type="number" step="0.01" class="form-control ${status.error ? 'is-invalid' : ''}" name="costoTotale" id="costoTotale" value="${status.value}" required readonly>
                         </spring:bind>
                         <form:errors path="costoTotale" cssClass="text-danger" />
+
+                        <div id="blocco-sconto" class="mt-2 d-none">
+                            <span class="text-success">Prezzo Scontato: </span>
+                            <span id="valore-sconto" class="text-success fw-bold fs-5">0.00</span>
+                            <span class="text-success fw-bold fs-5"> €</span>
+                        </div>
+
+                        <div id="banner-traguardo" class="alert mt-3 d-none mb-0" role="alert">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mt-4">
                         <label for="clienteDTO.id" class="form-label">Cliente <span class="text-danger">*</span></label>
                         <spring:bind path="clienteDTO.id">
                             <select class="form-select ${status.error ? 'is-invalid' : ''}" name="clienteDTO.id" id="clienteDTO.id" required>
-                                <option value="" selected>- Seleziona un Cliente -</option>
-                                <c:forEach items="${clienti_list_attribute}" var="clienteItem">
-                                    <option value="${clienteItem.id}" ${clienteItem.id == status.value ? 'selected' : ''}>${clienteItem.nome} ${clienteItem.cognome}</option>
-                                </c:forEach>
+                                <option value="" data-ordini="0" selected>- Seleziona un Cliente -</option>
+                                    <c:forEach items="${clienti_list_attribute}" var="clienteItem">
+                                        <option value="${clienteItem.id}" data-ordini="${clienteItem.ordini}" ${clienteItem.id == status.value ? 'selected' : ''}>
+                                            ${clienteItem.nome} ${clienteItem.cognome}
+                                        </option>
+                                    </c:forEach>
                             </select>
-                        </spring:bind>
-                        <form:errors path="clienteDTO.id" cssClass="text-danger" />
+                            </spring:bind>
+                            <form:errors path="clienteDTO.id" cssClass="text-danger" />
                     </div>
 
                     <div class="col-md-12 mt-4">
@@ -105,17 +116,45 @@
     document.addEventListener("DOMContentLoaded", function() {
         const checkboxes = document.querySelectorAll('.pizza-checkbox');
         const costoTotaleInput = document.getElementById('costoTotale');
+        const clienteSelect = document.getElementById('clienteDTO.id');
+        const bannerTraguardo = document.getElementById('banner-traguardo');
+        const bloccoSconto = document.getElementById('blocco-sconto');
+        const valoreSconto = document.getElementById('valore-sconto');
 
-        checkboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                let totale = 0.0;
-                document.querySelectorAll('.pizza-checkbox:checked').forEach(function(checkedBox) {
-                    totale += parseFloat(checkedBox.getAttribute('data-prezzo'));
-                });
-                totale = totale * 1.15;
-                costoTotaleInput.value = totale.toFixed(2);
+        function ricalcolaTutto() {
+            let totale = 0.0;
+            document.querySelectorAll('.pizza-checkbox:checked').forEach(function(checkedBox) {
+                totale += parseFloat(checkedBox.getAttribute('data-prezzo'));
             });
+            totale = totale * 1.15;
+            costoTotaleInput.value = totale.toFixed(2);
+            bloccoSconto.classList.add('d-none');
+            bannerTraguardo.classList.add('d-none');
+            if (clienteSelect.selectedIndex > 0) {
+                const opzioneSelezionata = clienteSelect.options[clienteSelect.selectedIndex];
+                const numeroOrdini = parseInt(opzioneSelezionata.getAttribute('data-ordini'));
+                if (numeroOrdini === 9) {
+                    let totaleScontato = totale * 0.90;
+                    valoreSconto.innerText = totaleScontato.toFixed(2);
+                    bloccoSconto.classList.remove('d-none');
+                    bannerTraguardo.innerHTML = " 10° ordine! Il Cliente diventerà <strong>SILVER</strong>!";
+                    bannerTraguardo.className = "alert alert-secondary border-secondary mt-3";
+                    bannerTraguardo.classList.remove('d-none');
+                }
+                else if (numeroOrdini === 19) {
+                    let totaleScontato = totale * 0.80;
+                    valoreSconto.innerText = totaleScontato.toFixed(2);
+                    bloccoSconto.classList.remove('d-none');
+                    bannerTraguardo.innerHTML = " 20° ordine! Il Cliente diventerà <strong>GOLD</strong>!";
+                    bannerTraguardo.className = "alert alert-warning border-warning mt-3 text-dark";
+                    bannerTraguardo.classList.remove('d-none');
+                }
+            }
+        }
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', ricalcolaTutto);
         });
+        clienteSelect.addEventListener('change', ricalcolaTutto);
     });
 </script>
 <jsp:include page="../footer.jsp" />

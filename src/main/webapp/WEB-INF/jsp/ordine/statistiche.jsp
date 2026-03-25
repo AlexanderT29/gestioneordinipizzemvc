@@ -86,6 +86,51 @@
             </div>
 
 
+            <div class='card'>
+                <div class="card-header">
+                    <h3>Clienti Status</h3>
+                </div>
+                <div class="card-body">
+                    <div class='table-responsive'>
+                        <table class='table table-striped ' >
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cognome</th>
+                                <th>Stato</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${clientis_list_attribute }" var="clienteItem">
+                                <tr>
+                                    <td>${clienteItem.nome }</td>
+                                    <td>${clienteItem.cognome }</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${clienteItem.stato == 'GOLD'}">
+                                                <span class="badge bg-warning text-dark">GOLD</span>
+                                            </c:when>
+                                            <c:when test="${clienteItem.stato == 'SILVER'}">
+                                                <span class="badge bg-secondary text-dark">SILVER</span>
+                                            </c:when>
+                                            <c:when test="${clienteItem.stato == 'NORMALE'}">
+                                                <span class="badge bg-success text-dark">NORMALE</span>
+                                            </c:when>
+                                        </c:choose>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/cliente/show/${clienteItem.id}">Visualizza</a>
+                                        <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/cliente/edit/${clienteItem.id}">Edit</a>
+                                        <a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/cliente/delete/${clienteItem.id}">Disattiva</a>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
 
         <div class='card'>
             <div class='card-header'>

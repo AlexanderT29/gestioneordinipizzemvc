@@ -1,5 +1,6 @@
 package com.example.gestioneordinipizza.service.cliente;
 
+import com.example.gestioneordinipizza.dto.ClienteDTOConteggio;
 import com.example.gestioneordinipizza.model.Cliente;
 import com.example.gestioneordinipizza.repository.cliente.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +66,10 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public List<Cliente> cercaClientiVirtuosi() {
         return clienteRepository.cercaClientiVirtuosi();
+    }
+
+    @Override
+    public List<ClienteDTOConteggio> cercaListaClientiConNumeroOrdini() {
+        return clienteRepository.findClientiConNumeroOrdini();
     }
 }

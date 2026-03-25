@@ -1,5 +1,7 @@
 package com.example.gestioneordinipizza.repository.ordine;
 
+import com.example.gestioneordinipizza.dto.ClienteDTO;
+import com.example.gestioneordinipizza.dto.ClienteDTOConteggio;
 import com.example.gestioneordinipizza.model.Cliente;
 import com.example.gestioneordinipizza.model.Ordine;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,5 +25,9 @@ public interface OrdineRepository extends JpaRepository<Ordine, Long>, PagingAnd
     @Query("select o from Ordine o left join fetch o.cliente where o.dataOrdine between :dataInizio and :dataFine")
     List<Ordine> ordiniTraDueDate(@Param("dataInizio")LocalDateTime dataInizio, @Param("dataFine") LocalDateTime dataFine);
 
-
+    @NativeQuery("SELECT c.id, c.nome, c.cognome, COUNT(o.id) AS numeroordini " +
+            "FROM cliente c " +
+            "JOIN ordine o ON ordine.cliente_id = cliente.id " +
+            "GROUP BY  c.id, c.nome, c.cognome")
+    List<ClienteDTOConteggio> contaOrdini(@Param("id") Long id);
 }

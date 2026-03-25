@@ -1,6 +1,7 @@
 package com.example.gestioneordinipizza.web.controller;
 
 import com.example.gestioneordinipizza.dto.ClienteDTO;
+import com.example.gestioneordinipizza.dto.ClienteDTOConteggio;
 import com.example.gestioneordinipizza.dto.OrdineDTO;
 import com.example.gestioneordinipizza.dto.PizzaDTO;
 import com.example.gestioneordinipizza.model.Cliente;
@@ -65,11 +66,12 @@ public class OrdineController {
     @GetMapping("/insert")
     public String createOrdine(Model model) {
         model.addAttribute("insert_ordine_attr", new OrdineDTO());
-        List<ClienteDTO> listaClienti = ClienteDTO.createClienteDTOListFromModelList(clienteService.listAllElements());
+        List<ClienteDTOConteggio> listaClienti = clienteService.cercaListaClientiConNumeroOrdini();
         List<PizzaDTO> listaPizze = PizzaDTO.createPizzaDTOListFromModelList(pizzaService.listAllElements());
 
         model.addAttribute("clienti_list_attribute", listaClienti);
         model.addAttribute("pizze_list_attribute", listaPizze);
+
 
         return "ordine/insert";
     }
@@ -77,8 +79,9 @@ public class OrdineController {
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("insert_ordine_attr") OrdineDTO ordineDTO, BindingResult result,
                              Model model, RedirectAttributes redirectAttrs) {
+        List<ClienteDTOConteggio> clientiConNumeroOrdini = clienteService.cercaListaClientiConNumeroOrdini();
         if (result.hasErrors()) {
-            model.addAttribute("clienti_list_attribute", ClienteDTO.createClienteDTOListFromModelList(clienteService.listAllElements()));
+            model.addAttribute("clienti_list_attribute", clientiConNumeroOrdini);
             model.addAttribute("pizze_list_attribute", PizzaDTO.createPizzaDTOListFromModelList(pizzaService.listAllElements()));
 
             return "ordine/insert";
@@ -93,9 +96,12 @@ public class OrdineController {
                 ordine.getPizze().add(pizzaVera);
             }
         }
+        ClienteDTOConteggio cliente = clientiConNumeroOrdini.stream().filter(clienteDTOConteggio -> clienteDTOConteggio.getId().equals(ordine.getCliente().getId())).findFirst().orElse(null);
         ordineService.inserisciNuovo(ordine);
         try {
-            ordineService.calcolaPrezzoOrdine(ordine.getId());
+            if(cliente.getStato() != null) {
+                ordineService.calcolaPrezzoOrdine(ordine.getId(), cliente.getOrdini());
+            }
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("errorMessage", e.getMessage());
         }
@@ -185,6 +191,7 @@ public class OrdineController {
         return "ordine/show";
     }
 
+
     @PostMapping("/listdate")
     public ModelAndView listOrdiniTraDate(@RequestParam("dataInizio") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime dataInizio,
                                           @RequestParam("dataFine") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime dataFine,
@@ -193,6 +200,7 @@ public class OrdineController {
         try {
             List<Ordine> ordini = ordineService.ordiniTraDate(dataInizio, dataFine);
             List<Cliente> clientiVirtuosi = clienteService.cercaClientiVirtuosi();
+            List<ClienteDTOConteggio> clientiStatus = clienteService.cercaListaClientiConNumeroOrdini();
             mv.addObject("ordine_list_attribute", OrdineDTO.createOrdineDTOListFromModelList(ordini, true));
             mv.addObject("successMessage", "Ricerca completata: trovati " + ordini.size() + " ordini.");
             double ricavi = 0.0;
@@ -209,6 +217,7 @@ public class OrdineController {
             mv.addObject("dimensione", ordini.size());
             mv.addObject("pizze_totali", pizzeTotali);
             mv.addObject("clientiv_list_attribute", ClienteDTO.createClienteDTOListFromModelList(clientiVirtuosi));
+            mv.addObject("clientis_list_attribute", clientiStatus);
             System.out.println("ricavi: " + ricavi + " costi: " + costi);
             mv.setViewName("ordine/statistiche");
         } catch (RuntimeException e) {
@@ -224,5 +233,9 @@ public class OrdineController {
         model.addAttribute("clienti_list_attribute", ClienteDTO.createClienteDTOListFromModelList(clienteService.listAllElements()));
         return "ordine/searchdate";
     }
+
+
+
+
 
 }
